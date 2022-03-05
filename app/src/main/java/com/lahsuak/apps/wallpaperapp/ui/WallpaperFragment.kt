@@ -1,7 +1,6 @@
 package com.lahsuak.apps.wallpaperapp.ui
 
 import android.app.WallpaperManager
-import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -95,31 +94,7 @@ class WallpaperFragment : Fragment(R.layout.fragment_wallpaper) {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        backToDefaultOrientation()
         (activity as AppCompatActivity).supportActionBar!!.show()
     }
 
-    private fun backToDefaultOrientation() {
-        (activity as AppCompatActivity).requestedOrientation =
-            ActivityInfo.SCREEN_ORIENTATION_SENSOR
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            val controller = requireActivity().window.insetsController
-            if (controller != null) {
-                if (controller.systemBarsBehavior == 0) {
-                    controller.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                    controller.systemBarsBehavior =
-                        WindowInsetsController.BEHAVIOR_DEFAULT
-                } else {
-                    controller.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
-                    controller.systemBarsBehavior =
-                        WindowInsetsController.BEHAVIOR_DEFAULT
-                }
-            }
-        } else {
-            val attrs = (activity as AppCompatActivity).window.attributes
-            attrs.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-            (activity as AppCompatActivity).window.attributes = attrs
-        }
-    }
 }

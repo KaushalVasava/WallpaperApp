@@ -13,35 +13,6 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.lahsuak.apps.wallpaperapp.R
 import com.lahsuak.apps.wallpaperapp.model.ImageModel
 
-/*
-class ImageAdapter(context:Context, private val list: List<ImageModel>) :
-    RecyclerView.Adapter<ImageAdapter.MyViewHolder>() {
-    var context1 = context
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Log.d("TAG", "bindHolder: ${list[position].urls.regular}")
-//        holder.bind(list[position])
-        Glide.with(context1).load(list[position].urls.regular).into(holder.imageView)
-        holder.itemView.setOnClickListener {
-            val intent = Intent(context1,FullScreenActivity::class.java)
-            intent.putExtra("url",list[position].urls.regular)
-            context1.startActivity(intent)
-        }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        Log.d("TAG", "onCreateView")
-        val inflater =
-            LayoutInflater.from(parent.context).inflate(R.layout.image_item, parent, false)
-        return MyViewHolder(inflater)
-    }
-
-    inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val imageView: ImageView = view.findViewById(R.id.image_view)
-    }
-
-    override fun getItemCount() = list.size
-}
-*/
 class ImageAdapter(private val listener: ImageListener) : PagingDataAdapter<ImageModel,
         ImageAdapter.MyViewHolder>(DiffUtilCallBack()) {
 
@@ -52,7 +23,7 @@ class ImageAdapter(private val listener: ImageListener) : PagingDataAdapter<Imag
             if (item != null)
                 listener.onItemClick(item.urls.regular)
         }
-        if(item ==null){
+        if(item == null){
             Log.d("TAG", "onBindViewHolder: null ")
         }
         else {
