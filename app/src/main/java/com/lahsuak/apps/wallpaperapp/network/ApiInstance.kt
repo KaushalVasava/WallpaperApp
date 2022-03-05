@@ -1,6 +1,6 @@
 package com.lahsuak.apps.wallpaperapp.network
 
-import com.lahsuak.apps.wallpaperapp.Constants.BASE_URL
+import com.lahsuak.apps.wallpaperapp.util.Constants.BASE_URL
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 

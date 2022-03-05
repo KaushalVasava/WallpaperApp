@@ -1,9 +1,7 @@
-package com.lahsuak.apps.wallpaperapp.viewmodel
+package com.lahsuak.apps.wallpaperapp.util
 
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.switchMap
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
 import com.lahsuak.apps.wallpaperapp.model.ImageModel

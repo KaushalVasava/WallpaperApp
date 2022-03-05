@@ -1,6 +1,6 @@
 package com.lahsuak.apps.wallpaperapp.network
 
-import com.lahsuak.apps.wallpaperapp.Constants.API_KEY
+import com.lahsuak.apps.wallpaperapp.util.Constants.API_KEY
 import com.lahsuak.apps.wallpaperapp.model.ImageModel
 import com.lahsuak.apps.wallpaperapp.model.SearchModel
 import retrofit2.Call

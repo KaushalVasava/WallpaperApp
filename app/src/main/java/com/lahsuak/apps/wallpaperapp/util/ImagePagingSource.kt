@@ -1,10 +1,10 @@
-package com.lahsuak.apps.wallpaperapp.viewmodel
+package com.lahsuak.apps.wallpaperapp.util
 
 
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.lahsuak.apps.wallpaperapp.Constants.PAGE_COUNT
+import com.lahsuak.apps.wallpaperapp.util.Constants.PAGE_COUNT
 import com.lahsuak.apps.wallpaperapp.model.ImageModel
 import com.lahsuak.apps.wallpaperapp.network.ApiService
 

@@ -1,4 +1,4 @@
-package com.lahsuak.apps.wallpaperapp
+package com.lahsuak.apps.wallpaperapp.util
 
 object Constants {
     const val BASE_URL = "https://api.unsplash.com/"

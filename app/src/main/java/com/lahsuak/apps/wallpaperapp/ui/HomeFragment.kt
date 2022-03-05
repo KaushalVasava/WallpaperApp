@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lahsuak.apps.wallpaperapp.R
 import com.lahsuak.apps.wallpaperapp.databinding.FragmentHomeBinding
-import com.lahsuak.apps.wallpaperapp.viewmodel.ImageAdapter
-import com.lahsuak.apps.wallpaperapp.viewmodel.MainViewModel
+import com.lahsuak.apps.wallpaperapp.util.ImageAdapter
+import com.lahsuak.apps.wallpaperapp.util.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -25,11 +25,11 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var binding: FragmentHomeBinding
     private lateinit var viewModel:MainViewModel
-//    private val binding= _binding!!
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+
         setHasOptionsMenu(true)
         viewModel = ViewModelProvider(this)[MainViewModel::class.java]
 

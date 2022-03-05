@@ -1,4 +1,4 @@
-package com.lahsuak.apps.wallpaperapp.viewmodel
+package com.lahsuak.apps.wallpaperapp.util
 
 import android.util.Log
 import android.view.LayoutInflater

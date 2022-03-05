@@ -1,10 +1,12 @@
 package com.lahsuak.apps.wallpaperapp.ui
 
 import android.app.WallpaperManager
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.os.Bundle
-import android.view.View
+import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
@@ -22,11 +24,27 @@ class WallpaperFragment : Fragment(R.layout.fragment_wallpaper) {
     private val args: WallpaperFragmentArgs by navArgs()
     private lateinit var image: Bitmap
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        (activity as AppCompatActivity).supportActionBar?.hide()
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentWallpaperBinding.bind(view)
         // Redirect system "Back" press to our dispatcher
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            requireActivity().window.setFlags(
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+            );
+        }
         binding.backBtn.setOnClickListener {
             onBackPressed()
         }
@@ -35,7 +53,6 @@ class WallpaperFragment : Fragment(R.layout.fragment_wallpaper) {
             backPressedDispatcher
         )
 
-        (activity as AppCompatActivity).supportActionBar!!.hide()
         Glide.with(requireContext()).asBitmap().load(args.imageUrl)
             .into(object : CustomTarget<Bitmap>() {
                 override fun onResourceReady(
@@ -56,7 +73,12 @@ class WallpaperFragment : Fragment(R.layout.fragment_wallpaper) {
 
     private fun setWallpaper() {
         val wallpaperManager = WallpaperManager.getInstance(requireActivity().baseContext)
-        wallpaperManager.setBitmap(image)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            wallpaperManager.setBitmap(image, null, true, WallpaperManager.FLAG_SYSTEM)
+            wallpaperManager.setWallpaperOffsetSteps(1F, 1F)
+        } else {
+            wallpaperManager.setBitmap(image)
+        }
         Toast.makeText(requireContext(), "Wallpaper set!", Toast.LENGTH_SHORT).show()
     }
 
@@ -70,8 +92,34 @@ class WallpaperFragment : Fragment(R.layout.fragment_wallpaper) {
     private fun onBackPressed() {
         findNavController().popBackStack()
     }
-        override fun onDestroyView() {
+
+    override fun onDestroyView() {
         super.onDestroyView()
+        backToDefaultOrientation()
         (activity as AppCompatActivity).supportActionBar!!.show()
+    }
+
+    private fun backToDefaultOrientation() {
+        (activity as AppCompatActivity).requestedOrientation =
+            ActivityInfo.SCREEN_ORIENTATION_SENSOR
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = requireActivity().window.insetsController
+            if (controller != null) {
+                if (controller.systemBarsBehavior == 0) {
+                    controller.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                    controller.systemBarsBehavior =
+                        WindowInsetsController.BEHAVIOR_DEFAULT
+                } else {
+                    controller.show(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                    controller.systemBarsBehavior =
+                        WindowInsetsController.BEHAVIOR_DEFAULT
+                }
+            }
+        } else {
+            val attrs = (activity as AppCompatActivity).window.attributes
+            attrs.flags = WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
+            (activity as AppCompatActivity).window.attributes = attrs
+        }
     }
 }
