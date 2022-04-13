@@ -18,6 +18,7 @@ class ImageAdapter(private val listener: ImageListener) : PagingDataAdapter<Imag
 
 
     /** Download image from url without any library
+    
         private fun downloadImage(imageUrl: String): Bitmap?{
             return try {
                 val conn = URL(imageUrl).openConnection()
