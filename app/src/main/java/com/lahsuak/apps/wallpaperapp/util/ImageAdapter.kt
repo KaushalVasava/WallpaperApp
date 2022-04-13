@@ -1,7 +1,5 @@
 package com.lahsuak.apps.wallpaperapp.util
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,11 +12,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.lahsuak.apps.wallpaperapp.R
 import com.lahsuak.apps.wallpaperapp.model.ImageModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.URL
 
 class ImageAdapter(private val listener: ImageListener) : PagingDataAdapter<ImageModel,
         ImageAdapter.MyViewHolder>(DiffUtilCallBack()) {
