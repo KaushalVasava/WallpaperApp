@@ -2,12 +2,10 @@ package com.lahsuak.apps.wallpaperapp.ui
 
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.WindowManager
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -17,8 +15,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import com.lahsuak.apps.wallpaperapp.R
 import com.lahsuak.apps.wallpaperapp.databinding.FragmentHomeBinding
-import com.lahsuak.apps.wallpaperapp.util.ImageAdapter
-import com.lahsuak.apps.wallpaperapp.util.MainViewModel
+import com.lahsuak.apps.wallpaperapp.ui.adapter.ImageAdapter
+import com.lahsuak.apps.wallpaperapp.ui.viewmodel.MainViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
@@ -27,7 +25,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
     private lateinit var imageAdapter: ImageAdapter
     private lateinit var binding: FragmentHomeBinding
-    private lateinit var viewModel:MainViewModel
+    private lateinit var viewModel: MainViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,7 +41,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         initRecyclerView()
         initViewModel()
-
     }
 
     private fun initRecyclerView() {
@@ -60,8 +57,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     }
 
     private fun initViewModel() {
-        lifecycleScope.launchWhenCreated {
-            viewModel.getListData("", false).collectLatest {
+        lifecycleScope.launch {
+            viewModel.flow.collectLatest {
                 imageAdapter.submitData(it)
             }
         }
@@ -74,7 +71,7 @@ class HomeFragment : Fragment(R.layout.fragment_home),
 
         val searchView = searchItem?.actionView as SearchView
         searchView.setOnQueryTextListener(this)
-        searchView.queryHint = "Search Image"
+        searchView.queryHint = getString(R.string.search_image)
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
@@ -84,7 +81,6 @@ class HomeFragment : Fragment(R.layout.fragment_home),
             viewModel.userSearch(query)
             lifecycleScope.launch {
                 viewModel.flow.collectLatest {
-                    Log.d("TAG", "onQueryTextSubmit: $it")
                     imageAdapter.submitData(it)
                 }
             }

@@ -1,17 +1,14 @@
 package com.lahsuak.apps.wallpaperapp.util
 
-
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.lahsuak.apps.wallpaperapp.util.Constants.PAGE_COUNT
 import com.lahsuak.apps.wallpaperapp.model.ImageModel
 import com.lahsuak.apps.wallpaperapp.network.ApiService
-
-private const val TAG = "Load"
+import com.lahsuak.apps.wallpaperapp.util.AppConstants.PAGE_COUNT
 
 class ImagePagingSource(
-    private val apiService: ApiService,private val query:String,
+    private val apiService: ApiService,
+    private val query: String,
 ) :
     PagingSource<Int, ImageModel>() {
     override fun getRefreshKey(state: PagingState<Int, ImageModel>): Int? {
@@ -21,18 +18,15 @@ class ImagePagingSource(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ImageModel> {
         return try {
             val currentPage = params.key ?: FIRST_PAGE_INDEX
-            var data :List<ImageModel> = emptyList()
-            if(query==""){
-                val response = apiService.getImages2(currentPage, PAGE_COUNT)
-                data = response.body() ?: emptyList()
-            }else{
-                val response =  apiService.getSearchImages2(query,currentPage, PAGE_COUNT)
-                data = response.first().results?: emptyList()
-                Log.d(TAG, "load: inside ${data.size}")
+            val data: List<ImageModel> = if (query == "") {
+                val response = apiService.getImages(currentPage, PAGE_COUNT)
+                response.body() ?: emptyList()
+            } else {
+                val response = apiService.getSearchImages(query, currentPage, PAGE_COUNT)
+                response.first().results
             }
             val responseData = mutableListOf<ImageModel>()
             responseData.addAll(data)
-            Log.d(TAG, "load: ${data.size}")
             LoadResult.Page(
                 data = data,
                 prevKey = if (currentPage == 1) null else -1,
@@ -46,5 +40,4 @@ class ImagePagingSource(
     companion object {
         private const val FIRST_PAGE_INDEX = 1
     }
-
 }

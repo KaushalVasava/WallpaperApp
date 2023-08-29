@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">WallpaperApp</string>
+    <string name="search_image">Search Image</string>
 </resources>

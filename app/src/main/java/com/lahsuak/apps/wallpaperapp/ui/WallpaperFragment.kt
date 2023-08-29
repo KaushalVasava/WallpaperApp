@@ -42,7 +42,7 @@ class WallpaperFragment : Fragment(R.layout.fragment_wallpaper) {
             requireActivity().window.setFlags(
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-            );
+            )
         }
         binding.backBtn.setOnClickListener {
             onBackPressed()

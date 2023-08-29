@@ -1,3 +1,5 @@
 package com.lahsuak.apps.wallpaperapp.model
 
-data class SearchModel(var results: ArrayList<ImageModel>)
+data class SearchModel(
+    val results: ArrayList<ImageModel>,
+)
