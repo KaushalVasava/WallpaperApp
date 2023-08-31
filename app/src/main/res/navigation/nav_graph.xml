@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_homeFragment_to_wallpaperFragment"
             app:destination="@id/wallpaperFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_infoFragment"
+            app:destination="@id/infoFragment" />
     </fragment>
     <fragment
         android:id="@+id/wallpaperFragment"
@@ -22,4 +25,9 @@
             android:name="imageUrl"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/infoFragment"
+        android:name="com.lahsuak.apps.wallpaperapp.ui.InfoFragment"
+        android:label="ExampleFragment" />
+
 </navigation>
