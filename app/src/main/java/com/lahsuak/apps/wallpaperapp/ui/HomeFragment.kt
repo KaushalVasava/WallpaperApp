@@ -93,7 +93,8 @@ class HomeFragment : Fragment(R.layout.fragment_home),
     }
 
     override fun onItemClick(url: String) {
-        val action = HomeFragmentDirections.actionHomeFragmentToWallpaperFragment(url)
-        findNavController().navigate(action)
+        findNavController().navigate(R.id.action_homeFragment_to_infoFragment)
+//        val action = HomeFragmentDirections.actionHomeFragmentToWallpaperFragment(url)
+//        findNavController().navigate(action)
     }
 }

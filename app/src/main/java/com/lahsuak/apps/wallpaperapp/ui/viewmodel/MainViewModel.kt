@@ -22,17 +22,24 @@ class MainViewModel : ViewModel() {
         }
 
     init {
-        getListData("",false)
+        getListData("", false)
     }
-   private fun getListData(query: String, isSearch: Boolean): Flow<PagingData<ImageModel>> {
+
+    fun getListData(query: String, isSearch: Boolean): Flow<PagingData<ImageModel>> {
         return Pager(config = PagingConfig(pageSize = 1, maxSize = 30),
-            pagingSourceFactory = { ImagePagingSource(retroService,query) }).flow.cachedIn(viewModelScope)
+            pagingSourceFactory = { ImagePagingSource(retroService, query) }).flow.cachedIn(
+            viewModelScope
+        )
     }
-    fun userSearch(query: String){
+
+    fun userSearch(query: String) {
         currentSearch = query
+        getListData(query,true)
         pagingSource?.invalidate()
     }
-    val flow = Pager(config = PagingConfig(pageSize = 30, enablePlaceholders = false)
+
+    val flow = Pager(
+        config = PagingConfig(pageSize = 30, enablePlaceholders = false)
     ) {
         pagingSource!!
     }.flow.cachedIn(viewModelScope)
