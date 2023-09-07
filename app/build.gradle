@@ -15,9 +15,28 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+        buildConfigField "String", "API_KEY", "\"${properties.getProperty("API_KEY")}\""
     }
+//    def signingProperties = getProperties('local.properties')
+//    def releaseSigning
+//    if (signingProperties != null) {
+//        releaseSigning = signingConfigs.create("release") {
+//            storeFile file(getProperty(signingProperties, 'storeFile'))
+//            keyAlias getProperty(signingProperties, 'keyAlias')
+//            storePassword getProperty(signingProperties, 'storePassword')
+//            keyPassword getProperty(signingProperties, 'keyPassword')
+//        }
+//    } else {
+//        releaseSigning = signingConfigs.debug
+//    }
     buildFeatures{
         viewBinding true
+        buildConfig = true
     }
 
     buildTypes {
