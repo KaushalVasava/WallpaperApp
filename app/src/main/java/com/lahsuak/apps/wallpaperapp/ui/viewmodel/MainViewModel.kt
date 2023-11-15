@@ -3,44 +3,25 @@ package com.lahsuak.apps.wallpaperapp.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.*
-import com.lahsuak.apps.wallpaperapp.model.ImageModel
 import com.lahsuak.apps.wallpaperapp.network.ApiInstance
 import com.lahsuak.apps.wallpaperapp.network.ApiService
+import com.lahsuak.apps.wallpaperapp.util.AppConstants.PAGE_COUNT
 import com.lahsuak.apps.wallpaperapp.util.ImagePagingSource
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
+
+private const val PAGE_SIZE = 10
 
 class MainViewModel : ViewModel() {
     private val retroService: ApiService = ApiInstance.getRetroInstance()
 
     private var currentSearch: String = ""
-    private var pagingSource: ImagePagingSource? = null
-        get() {
-            if (field == null || field?.invalid == true) {
-                field = ImagePagingSource(retroService, currentSearch)
-            }
-            return field
-        }
-
-    init {
-        getListData("", false)
-    }
-
-    fun getListData(query: String, isSearch: Boolean): Flow<PagingData<ImageModel>> {
-        return Pager(config = PagingConfig(pageSize = 1, maxSize = 30),
-            pagingSourceFactory = { ImagePagingSource(retroService, query) }).flow.cachedIn(
-            viewModelScope
+    val imagePager = Pager(
+        PagingConfig(
+            pageSize = PAGE_SIZE,
+            prefetchDistance = PAGE_COUNT,
+            enablePlaceholders = true
         )
-    }
-
-    fun userSearch(query: String) {
-        currentSearch = query
-        getListData(query,true)
-        pagingSource?.invalidate()
-    }
-
-    val flow = Pager(
-        config = PagingConfig(pageSize = 30, enablePlaceholders = false)
     ) {
-        pagingSource!!
+        ImagePagingSource(retroService, currentSearch)
     }.flow.cachedIn(viewModelScope)
 }

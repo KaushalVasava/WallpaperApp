@@ -1,25 +1,29 @@
 package com.lahsuak.apps.wallpaperapp.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.lahsuak.apps.wallpaperapp.R
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.rememberNavController
+import com.lahsuak.apps.wallpaperapp.ui.navigation.AppNavHost
+import com.lahsuak.apps.wallpaperapp.ui.viewmodel.MainViewModel
 
-class MainActivity : AppCompatActivity() {
-    private lateinit var navController: NavController
+class MainActivity : ComponentActivity() {
+    private val mainViewModel: MainViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val navHostFragment =
-            (supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment)
-        navController = navHostFragment.navController
-
-        setupActionBarWithNavController(navController)
-    }
-
-    override fun onSupportNavigateUp(): Boolean {
-        return navController.navigateUp() || super.onSupportNavigateUp()
+        setContent {
+            val navController = rememberNavController()
+            WallpaperAppTheme {
+                Surface(Modifier.background(MaterialTheme.colorScheme.background)) {
+                     AppNavHost(mainViewModel,navController)
+                }
+            }
+        }
     }
 }

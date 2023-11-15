@@ -1,6 +1,6 @@
 package com.lahsuak.apps.wallpaperapp.network
 
-import com.lahsuak.apps.wallpaperapp.util.AppConstants.API_KEY
+import com.lahsuak.apps.wallpaperapp.BuildConfig
 import com.lahsuak.apps.wallpaperapp.model.ImageModel
 import com.lahsuak.apps.wallpaperapp.model.SearchModel
 import retrofit2.Response
@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface ApiService {
     @Headers(
         "Accept: application/json",
-        "Authorization: Client-ID $API_KEY"
+        "Authorization: Client-ID ${BuildConfig.API_KEY}"
     )
     @GET("/photos")
     suspend fun getImages(
@@ -19,7 +19,7 @@ interface ApiService {
         @Query("per_page") perPage: Int
     ): Response<List<ImageModel>>
 
-    @Headers("Authorization: Client-ID $API_KEY")
+    @Headers("Authorization: Client-ID ${BuildConfig.API_KEY}")
     @GET("/search/photos")
     suspend fun getSearchImages(
         @Query("query") query: String,
