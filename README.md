@@ -11,10 +11,10 @@ It is a wallpaper app using Unsplash API. It is a project using retrofit, Corout
 - Paging3 for pagination
 - Rest Api
 - Retrofit
+- Coil for Image loading
 - Coroutines
 - StateFlow
 - MVVM Architecture
-- Single activity architecture
 
 
 # Screenshots
